@@ -1,19 +1,15 @@
 package com.example.businesscard.data.remote
 
-import android.content.Context
 import com.example.businesscard.BuildConfig
-import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 class ApiConfig {
-    fun createOkHttpCache(context: Context): Cache =
-        Cache(context.cacheDir, (10 * 1024 * 1024).toLong())
-
     fun createLoggingInterceptor(): Interceptor =
         HttpLoggingInterceptor().apply {
             level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
@@ -23,11 +19,12 @@ class ApiConfig {
     fun createHeaderInterceptor(): Interceptor =
         Interceptor { chain ->
             val request = chain.request()
-            val newUrl = request.url().newBuilder()
-                .build()
+            val newUrl = request.run {
+                url.newBuilder().build()
+            }
             val newRequest = request.newBuilder()
                 .url(newUrl)
-                .method(request.method(), request.body())
+                .method(request.method, request.body)
                 .build()
             chain.proceed(newRequest)
         }
@@ -48,7 +45,8 @@ class ApiConfig {
     ): Retrofit =
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("http://localhost/BusinessCard/")
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .baseUrl("http://10.160.36.7/BusinessCard/")
             .client(okHttpClient)
             .build()
 

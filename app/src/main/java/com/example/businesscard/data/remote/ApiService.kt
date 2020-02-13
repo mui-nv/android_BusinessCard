@@ -1,10 +1,12 @@
 package com.example.businesscard.data.remote
 
+import com.example.businesscard.data.remote.param.RequestParam
 import com.example.businesscard.data.remote.response.ParamResponse
-import retrofit2.http.GET
-import retrofit2.http.Path
+import io.reactivex.Observable
+import retrofit2.http.Body
+import retrofit2.http.POST
 
 interface ApiService {
-    @GET("3/movie/{movie_id}/credits")
-    suspend fun userLogin(@Path("movie_id") movieId: String): ParamResponse
+    @POST("SelectUser.php")
+    fun userLogin(@Body param: RequestParam): Observable<ParamResponse>
 }
