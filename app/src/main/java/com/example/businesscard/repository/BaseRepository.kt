@@ -15,14 +15,14 @@ open class BaseRepository(val apiService: ApiService) {
     ): Observable<V> {
         val paramJson = dataToString(param)
         val encodeJson = AESCipher.encryption(AESCipher.key, AESCipher.iv, paramJson)
-        val param = RequestParam()
-        param.param = encodeJson.toString()
+        val requestParam = RequestParam()
+        requestParam.param = encodeJson.toString()
 
 
         val apiResponse: Observable<ParamResponse>
         when (apiAddress) {
-            ApiAddress.USER_LOGIN -> apiResponse = apiService.userLogin(param)
-            else -> apiResponse = apiService.userLogin(param)
+            ApiAddress.USER_LOGIN -> apiResponse = apiService.userLogin(requestParam)
+            else -> apiResponse = apiService.userLogin(requestParam)
         }
 
         return apiResponse
