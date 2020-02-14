@@ -14,4 +14,19 @@ class UserRepository(apiService: ApiService, val userDao: UserDao, val userMappe
             userDao.insertUser(userMapper.fromDataToObject(it))
         })
     }
+
+    companion object {
+
+        private var INSTANCE: UserRepository? = null
+
+        @JvmStatic fun getInstance(apiService: ApiService, userDao: UserDao, userMapper: UserMapper) =
+            INSTANCE ?: synchronized(UserRepository::class.java) {
+                INSTANCE ?: UserRepository(apiService, userDao, userMapper)
+                    .also { INSTANCE = it }
+            }
+
+        @JvmStatic fun destroyInstance() {
+            INSTANCE = null
+        }
+    }
 }
