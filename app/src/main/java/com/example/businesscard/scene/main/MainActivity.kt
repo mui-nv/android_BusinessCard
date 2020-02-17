@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.viewpager.widget.ViewPager
 import com.example.businesscard.R
+import com.example.businesscard.scene.main.create.CreateViewModel
+import com.example.businesscard.scene.main.edit.EditViewModel
 import com.example.businesscard.scene.main.search.SearchViewModel
 import com.example.businesscard.scene.main.ui.main.SectionsPagerAdapter
 import com.example.businesscard.util.obtainViewModel
@@ -26,4 +28,6 @@ class MainActivity : AppCompatActivity() {
 
     //    inline fun <reified T> obtainViewModel(): T = obtainViewModel(T::class.java)
     fun obtainSearchViewModel(): SearchViewModel = obtainViewModel(SearchViewModel::class.java)
+    fun obtainCreateViewModel(): CreateViewModel = obtainViewModel(CreateViewModel::class.java)
+    fun obtainEditViewModel(): EditViewModel = obtainViewModel(EditViewModel::class.java)
 }

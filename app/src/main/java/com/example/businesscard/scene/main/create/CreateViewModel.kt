@@ -1,7 +1,12 @@
 package com.example.businesscard.scene.main.create
 
+import android.util.Log
+import android.view.View
 import androidx.lifecycle.ViewModel
 
 class CreateViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+
+    fun saveInfomation() {
+        Log.i("TAG1", "clicked")
+    }
 }

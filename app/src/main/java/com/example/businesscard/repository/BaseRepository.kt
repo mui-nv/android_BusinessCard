@@ -69,6 +69,7 @@ open class BaseRepository(val apiService: ApiService) {
 
                 val groupListType = object : TypeToken<ArrayList<K>>() {}.type
                 val model = gson.fromJson<List<K>>(decodeString, groupListType)
+                Log.i("TAG1", K::class.java.typeName)
                 return@flatMap Observable.create<List<K>> {
                     it.onNext(model)
                 }

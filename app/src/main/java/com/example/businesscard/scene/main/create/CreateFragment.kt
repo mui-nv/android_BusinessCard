@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.businesscard.R
+import com.example.businesscard.databinding.CreateFragmentBinding
+import com.example.businesscard.scene.main.MainActivity
 
 class CreateFragment : Fragment() {
 
@@ -16,18 +18,22 @@ class CreateFragment : Fragment() {
     }
 
     private lateinit var viewModel: CreateViewModel
+    private lateinit var viewDataBinding: CreateFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.create_fragment, container, false)
+        viewDataBinding = CreateFragmentBinding.inflate(inflater, container, false)
+            .apply {
+                viewmodel = (activity as MainActivity).obtainCreateViewModel()
+            }
+        return viewDataBinding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(CreateViewModel::class.java)
-        // TODO: Use the ViewModel
+
     }
 
 }
