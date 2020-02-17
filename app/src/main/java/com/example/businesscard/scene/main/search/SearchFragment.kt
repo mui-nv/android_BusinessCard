@@ -15,13 +15,14 @@ class SearchFragment : Fragment() {
     }
 
     private lateinit var viewDataBinding: SearchFragmentBinding
+    private lateinit var listAdapter: InformationsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         viewDataBinding = SearchFragmentBinding.inflate(inflater, container, false).apply {
-            viewModel = (activity as MainActivity).obtainSearchViewModel()
+            viewmodel = (activity as MainActivity).obtainSearchViewModel()
         }
 
         return viewDataBinding.root
@@ -30,11 +31,21 @@ class SearchFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewDataBinding.setLifecycleOwner(this.viewLifecycleOwner)
+
+        setupAdapter()
     }
 
     override fun onResume() {
         super.onResume()
-        viewDataBinding.viewModel?.getDatas()
+        viewDataBinding.viewmodel?.getDatas()
     }
 
+    fun setupAdapter() {
+        val viewModel = viewDataBinding.viewmodel
+
+        if (viewModel != null) {
+            listAdapter = InformationsAdapter(ArrayList(), viewModel)
+            viewDataBinding.tasksList.adapter = listAdapter
+        }
+    }
 }

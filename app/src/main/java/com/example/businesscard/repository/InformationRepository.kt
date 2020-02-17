@@ -22,29 +22,58 @@ class InformationRepository(
 
         return getUserId.flatMap {
             var param = BaseParam(it)
-            return@flatMap requestApiList<BaseParam, Information>(ApiAddress.GET_ALL_INFORMATION, param, null)
+            return@flatMap requestApiList<BaseParam, Information>(
+                ApiAddress.GET_ALL_INFORMATION,
+                param,
+                null
+            )
         }
     }
 
     fun create(information: Information): Observable<Information> {
-        val userID = userDao.getUsers().first().id
-        information.userID = userID
+        var getUserId = Observable.create<Int> {
+            val userID = userDao.getUsers().first().id
+            it.onNext(userID)
+        }
 
-        return requestApi(ApiAddress.CREATE_INFORMATION, information)
+        return getUserId.flatMap {
+            information.userID = it
+
+            return@flatMap requestApi<Information, Information>(
+                ApiAddress.CREATE_INFORMATION,
+                information
+            )
+        }
     }
 
     fun update(information: Information): Observable<SuccessResponse> {
-        val userID = userDao.getUsers().first().id
-        information.userID = userID
+        var getUserId = Observable.create<Int> {
+            val userID = userDao.getUsers().first().id
+            it.onNext(userID)
+        }
 
-        return requestApi(ApiAddress.UPDATE_INFORMATION, information)
+        return getUserId.flatMap {
+            information.userID = it
+
+            return@flatMap requestApi<Information, SuccessResponse>(
+                ApiAddress.UPDATE_INFORMATION, information
+            )
+        }
     }
 
     fun delete(id: Int): Observable<SuccessResponse> {
-        val userID = userDao.getUsers().first().id
-        var param = DeleteParam(id, userID)
+        var getUserId = Observable.create<Int> {
+            val userID = userDao.getUsers().first().id
+            it.onNext(userID)
+        }
 
-        return requestApi(ApiAddress.DELETE_INFORMATION, param)
+        return getUserId.flatMap {
+            var param = DeleteParam(id, it)
+
+            return@flatMap requestApi<DeleteParam, SuccessResponse>(
+                ApiAddress.DELETE_INFORMATION, param
+            )
+        }
     }
 
     companion object {
