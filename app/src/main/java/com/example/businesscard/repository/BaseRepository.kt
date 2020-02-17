@@ -56,6 +56,11 @@ open class BaseRepository(val apiService: ApiService) {
         val apiResponse: Observable<ParamResponse>
         when (apiAddress) {
             ApiAddress.USER_LOGIN -> apiResponse = apiService.userLogin(requestParam)
+            ApiAddress.GET_ALL_INFORMATION -> apiResponse = apiService.allData(requestParam)
+            ApiAddress.CREATE_INFORMATION -> apiResponse = apiService.create(requestParam)
+            ApiAddress.UPDATE_INFORMATION -> apiResponse = apiService.update(requestParam)
+            ApiAddress.DELETE_INFORMATION -> apiResponse = apiService.delete(requestParam)
+            ApiAddress.GET_IMAGE -> apiResponse = apiService.getImage(requestParam)
             else -> apiResponse = apiService.userLogin(requestParam)
         }
 
@@ -92,5 +97,6 @@ open class BaseRepository(val apiService: ApiService) {
 }
 
 enum class ApiAddress {
-    USER_LOGIN, GET_ALL_INFORMATION, CREATE_INFORMATION
+    USER_LOGIN, GET_ALL_INFORMATION, CREATE_INFORMATION, UPDATE_INFORMATION, DELETE_INFORMATION,
+    GET_IMAGE
 }

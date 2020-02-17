@@ -2,11 +2,12 @@ package com.example.businesscard.scene.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
 import androidx.viewpager.widget.ViewPager
 import com.example.businesscard.R
+import com.example.businesscard.scene.main.search.SearchViewModel
 import com.example.businesscard.scene.main.ui.main.SectionsPagerAdapter
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
+import com.example.businesscard.util.obtainViewModel
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
@@ -18,12 +19,11 @@ class MainActivity : AppCompatActivity() {
         val viewPager: ViewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = findViewById(R.id.tabs)
-        tabs.setupWithViewPager(viewPager)
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        tabs.run {
+            setupWithViewPager(viewPager)
         }
     }
+
+    //    inline fun <reified T> obtainViewModel(): T = obtainViewModel(T::class.java)
+    fun obtainSearchViewModel(): SearchViewModel = obtainViewModel(SearchViewModel::class.java)
 }

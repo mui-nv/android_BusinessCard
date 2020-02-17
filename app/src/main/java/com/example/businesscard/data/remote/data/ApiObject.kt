@@ -11,4 +11,17 @@ open class User(
     var password: String?
 )
 
-open class Information(id: Int, company: String, department: String, address: String)
+open class Information(
+    @SerializedName("id") var id: Int,
+    @SerializedName("userID") var userID: Int?,
+    @SerializedName("name1") var name1: String?,
+    @SerializedName("name2") var name2: String?,
+    @SerializedName("company") var company: String?,
+    @SerializedName("postal") var postal: String?,
+    @SerializedName("deparment") var deparment: String?,
+    @SerializedName("address1") var address1: String?,
+    @SerializedName("address2") var address2: String?,
+    @SerializedName("latitude") var latitude: Double?,
+    @SerializedName("longitude") var longitude: Double?,
+    @SerializedName("image") var image: String?
+)

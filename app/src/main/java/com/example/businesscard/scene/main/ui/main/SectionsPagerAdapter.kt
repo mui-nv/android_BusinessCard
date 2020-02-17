@@ -1,15 +1,24 @@
 package com.example.businesscard.scene.main.ui.main
 
 import android.content.Context
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.businesscard.R
+import com.example.businesscard.scene.main.create.CreateFragment
+import com.example.businesscard.scene.main.edit.EditFragment
+import com.example.businesscard.scene.main.search.SearchFragment
 
 private val TAB_TITLES = arrayOf(
     R.string.tab_text_1,
-    R.string.tab_text_2
+    R.string.tab_text_2,
+    R.string.tab_text_3
 )
+
+enum class MAIN_TAB(val value: Int) {
+    CREATE(0), SEARCH(1), EDIT(2)
+}
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -21,7 +30,11 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
     override fun getItem(position: Int): Fragment {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return PlaceholderFragment.newInstance(position + 1)
+        when (position) {
+            0 -> return CreateFragment.newInstance()
+            1 -> return SearchFragment.newInstance()
+            else -> return EditFragment.newInstance()
+        }
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
@@ -29,7 +42,6 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
     }
 
     override fun getCount(): Int {
-        // Show 2 total pages.
-        return 2
+        return 3
     }
 }

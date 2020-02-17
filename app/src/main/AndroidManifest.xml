@@ -12,10 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".scene.main.MainActivity"
+            android:name=".scene.login.LoginActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".scene.login.LoginActivity">
+        <activity android:name=".scene.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
