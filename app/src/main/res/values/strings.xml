@@ -4,4 +4,6 @@
     <string name="tab_text_1">入力</string>
     <string name="tab_text_2">検索</string>
     <string name="tab_text_3">編集</string>
+
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBzY-Rfj8bp4coaP3NsRrkSNRQcPut_2eg</string>
 </resources>

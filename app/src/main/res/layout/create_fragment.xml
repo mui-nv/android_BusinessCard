@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -43,6 +44,7 @@
                     android:textSize="18sp" />
 
                 <EditText
+                    android:text="@={viewmodel.name1}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -59,6 +61,7 @@
                     android:textSize="18sp" />
 
                 <EditText
+                    android:text="@={viewmodel.name2}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -75,6 +78,7 @@
                     android:textSize="18sp" />
 
                 <EditText
+                    android:text="@={viewmodel.company}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -91,6 +95,7 @@
                     android:textSize="18sp" />
 
                 <EditText
+                    android:text="@={viewmodel.department}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -107,6 +112,7 @@
                     android:textSize="18sp" />
 
                 <EditText
+                    android:text="@={viewmodel.postal}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -123,6 +129,8 @@
                     android:textSize="18sp" />
 
                 <EditText
+                    android:id="@+id/textAddress1"
+                    android:text="@={viewmodel.address1}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -139,14 +147,18 @@
                     android:textSize="18sp" />
 
                 <EditText
+                    android:id="@+id/textAddress2"
+                    android:text="@={viewmodel.address2}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
             <fragment
+                android:id="@+id/mapAddress"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginVertical="16dp" />
+                android:layout_marginVertical="16dp"
+                android:layout_height="200dp" />
         </LinearLayout>
     </ScrollView>
 </layout>

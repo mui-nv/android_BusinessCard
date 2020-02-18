@@ -24,6 +24,5 @@ object BindingAdapterUtil {
         var imageBytes = Base64.decode(string, Base64.DEFAULT)
         val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
         image.setImageBitmap(decodedImage)
-
     }
 }

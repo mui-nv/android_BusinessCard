@@ -17,7 +17,7 @@ class LoginViewModel(val userRepository: UserRepository) : ViewModel() {
     val password: LiveData<String>
         get() = _password
 
-    val _errorMessage = MutableLiveData<Event<String>>()
+    var _errorMessage = MutableLiveData<Event<String>>()
     val errorMessage: LiveData<Event<String>>
         get() = _errorMessage
 

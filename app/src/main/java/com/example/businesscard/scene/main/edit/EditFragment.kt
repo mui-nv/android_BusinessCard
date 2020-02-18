@@ -26,8 +26,7 @@ class EditFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(EditViewModel::class.java)
-        // TODO: Use the ViewModel
+
     }
 
 }
