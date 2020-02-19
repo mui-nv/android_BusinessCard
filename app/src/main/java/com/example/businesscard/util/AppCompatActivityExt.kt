@@ -10,6 +10,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import io.reactivex.Observable
 
 
 fun <T : ViewModel> AppCompatActivity.obtainViewModel(viewModelClass: Class<T>) =
@@ -24,28 +25,31 @@ fun AppCompatActivity.showAlertMessage(message: String) {
     dialog.show()
 }
 
-fun AppCompatActivity.getLocationFromAddress(strAddress: String): LatLng? {
-    val coder = Geocoder(this)
-    val address: List<Address>?
-    var result: LatLng? = null
+fun AppCompatActivity.getLocationFromAddress(strAddress: String): Observable<LatLng?> {
+    var observable = Observable.create<LatLng?> { emitor ->
+        val coder = Geocoder(this)
+        val address: List<Address>?
+        var result: LatLng? = null
 
-    try {
-        address = coder.getFromLocationName(strAddress, 5)
-        if (address == null) {
-            return null
+        try {
+            address = coder.getFromLocationName(strAddress, 5)
+            if (address == null || address.size == 0) {
+                emitor.onError(Throwable())
+                return@create
+            }
+
+            val location = address[0]
+            location.getLatitude()
+            location.getLongitude()
+
+            result = LatLng(location.getLatitude(), location.getLongitude())
+            emitor.onNext(result)
+        } catch (ex: Exception) {
+            ex.printStackTrace()
         }
-        val location = address[0]
-        location.getLatitude()
-        location.getLongitude()
-
-        result = LatLng(location.getLatitude(), location.getLongitude())
-
-    } catch (ex: Exception) {
-
-        ex.printStackTrace()
     }
 
-    return result
+    return observable
 }
 
 fun AppCompatActivity.setMapLocation(googleMap: GoogleMap?, location: LatLng) {

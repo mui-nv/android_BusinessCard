@@ -1,5 +1,6 @@
 package com.example.businesscard.scene.main.create
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,6 +19,8 @@ import com.example.businesscard.util.showAlertMessage
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.create_fragment.*
 
 class CreateFragment : Fragment(), OnMapReadyCallback {
@@ -73,6 +76,7 @@ class CreateFragment : Fragment(), OnMapReadyCallback {
         var beforeAddress1 = ""
         var beforeAddress2 = ""
 
+        @SuppressLint("CheckResult")
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             var afterAddress1 = textAddress1.text.toString()
             var afterAddress2 = textAddress2.text.toString()
@@ -80,13 +84,18 @@ class CreateFragment : Fragment(), OnMapReadyCallback {
             if (afterAddress1 != "" && afterAddress2 != "" &&
                 (afterAddress1 != beforeAddress1 || afterAddress2 != beforeAddress2)
             ) {
-                var latLng = (activity as AppCompatActivity)
+                (activity as AppCompatActivity)
                     .getLocationFromAddress(afterAddress1 + afterAddress2)
-
-                latLng?.let {
-                    (activity as AppCompatActivity).setMapLocation(mMap, it)
-                    viewDataBinding.viewmodel?._location?.value = it
-                }
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        it?.let {
+                            (activity as AppCompatActivity).setMapLocation(mMap, it)
+                            viewDataBinding.viewmodel?._location?.value = it
+                        }
+                    }, {
+                        it.printStackTrace()
+                    })
             }
         }
 

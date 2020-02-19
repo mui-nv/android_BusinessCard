@@ -20,7 +20,11 @@ object BindingAdapterUtil {
 
     @BindingAdapter("app:imageString")
     @JvmStatic
-    fun setImage(image: ImageView, string: String) {
+    fun setImage(image: ImageView, string: String?) {
+        if (string == null) {
+            return
+        }
+
         var imageBytes = Base64.decode(string, Base64.DEFAULT)
         val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
         image.setImageBitmap(decodedImage)

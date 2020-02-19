@@ -34,7 +34,7 @@ class CreateViewModel(private val informationRepository: InformationRepository) 
         var information = Information(
             0, 0, name1.value!!, name2.value!!, company.value,
             department.value, postal.value, address1.value, address2.value,
-            location.value?.latitude, location.value?.longitude, "ns2"
+            location.value?.latitude, location.value?.longitude, "ns2", null
         )
         informationRepository.create(information).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

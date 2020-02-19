@@ -23,7 +23,7 @@ object Injection {
         val apiService = ApiConfig().createApiService()
         return InformationRepository.getInstance(
             apiService,
-            database.userDao(), InformationMapper()
+            database.userDao(), database.informationDao(), InformationMapper()
         )
     }
 }

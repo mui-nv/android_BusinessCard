@@ -20,16 +20,20 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.businesscard.data.local.`object`.InformationObject
 import com.example.businesscard.data.local.`object`.UserObject
+import com.example.businesscard.data.local.information.InformationDao
 import com.example.businesscard.data.local.user.UserDao
 
 /**
  * The Room Database that contains the Task table.
  */
-@Database(entities = arrayOf(UserObject::class), version = 1)
+@Database(entities = arrayOf(UserObject::class, InformationObject::class), version = 1)
 abstract class ToDoDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
+
+    abstract fun informationDao(): InformationDao
 
     companion object {
 

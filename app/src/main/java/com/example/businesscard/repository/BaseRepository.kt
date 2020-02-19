@@ -13,9 +13,15 @@ open class BaseRepository(val apiService: ApiService) {
 
     inline fun <T, reified K> requestApi(
         apiAddress: ApiAddress, param: T,
+        gson: Gson?,
         noinline onNextHandle: ((K) -> Unit)?
     ): Observable<K> {
-        val paramJson = dataToString(param)
+        var gsonValue = Gson()
+        if (gson != null) {
+            gsonValue = gson
+        }
+
+        val paramJson = gsonValue.toJson(param)
 
         val encodeJson = AESCipher.encryption(AESCipher.key, AESCipher.iv, paramJson)
         val requestParam = RequestParam()
@@ -34,7 +40,7 @@ open class BaseRepository(val apiService: ApiService) {
         return apiResponse
             .flatMap {
                 val decodeString = AESCipher.decrypt(AESCipher.key, AESCipher.iv, it.param)
-                var user = jsonToData<K>(decodeString.toString())
+                var user = gsonValue.fromJson<K>(decodeString.toString(), K::class.java)
                 return@flatMap Observable.create<K> {
                     it.onNext(user)
                 }
@@ -51,7 +57,7 @@ open class BaseRepository(val apiService: ApiService) {
         noinline onNextHandle: ((List<K>) -> Unit)?
     ): Observable<List<K>> {
         val gson = Gson()
-        val paramJson = dataToString(param)
+        val paramJson = gson.toJson(param)
         val encodeJson = AESCipher.encryption(AESCipher.key, AESCipher.iv, paramJson)
         val requestParam = RequestParam()
         requestParam.param = encodeJson.toString()
@@ -83,7 +89,19 @@ open class BaseRepository(val apiService: ApiService) {
     inline fun <T, reified K> requestApi(
         apiAddress: ApiAddress, param: T
     ): Observable<K> {
-        return requestApi(apiAddress, param, null)
+        return requestApi(apiAddress, param, null, null)
+    }
+
+    inline fun <T, reified K> requestApi(
+        apiAddress: ApiAddress, param: T, noinline onNextHandle: ((K) -> Unit)
+    ): Observable<K> {
+        return requestApi(apiAddress, param, null, onNextHandle)
+    }
+
+    inline fun <T, reified K> requestApi(
+        apiAddress: ApiAddress, param: T, gson: Gson
+    ): Observable<K> {
+        return requestApi(apiAddress, param, gson, null)
     }
 
     fun <T> dataToString(data: T): String {

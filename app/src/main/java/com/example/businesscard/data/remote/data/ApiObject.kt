@@ -23,5 +23,6 @@ open class Information(
     @SerializedName("address2") var address2: String?,
     @SerializedName("latitude") var latitude: Double?,
     @SerializedName("longitude") var longitude: Double?,
-    @SerializedName("image") var image: String?
+    @SerializedName("image") var image: String?,
+    @SerializedName("image_base64") var image_base64: String?
 )

@@ -30,6 +30,7 @@ class SearchViewModel(val informationRepository: InformationRepository) : ViewMo
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 _items.value = it
+                getAllImage()
             }, {
                 _errorMessage.value = Event("Get data fail!")
             })
@@ -51,5 +52,18 @@ class SearchViewModel(val informationRepository: InformationRepository) : ViewMo
 
     fun selectedInformation(information: Information) {
         _openInformationEvent.value = Event(information)
+    }
+
+    fun getAllImage() {
+        items.value?.forEach {item ->
+            item.image?.let { image ->
+                informationRepository.getImage(image)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        item.image_base64 = it.imageFile
+                    })
+            }
+        }
     }
 }

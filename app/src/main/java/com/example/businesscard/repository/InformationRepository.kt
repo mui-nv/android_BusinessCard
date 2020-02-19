@@ -1,16 +1,23 @@
 package com.example.businesscard.repository
 
+import android.util.Base64
+import com.example.businesscard.data.local.information.InformationDao
 import com.example.businesscard.data.local.user.UserDao
 import com.example.businesscard.data.remote.ApiService
 import com.example.businesscard.data.remote.data.Information
 import com.example.businesscard.data.remote.param.BaseParam
 import com.example.businesscard.data.remote.param.DeleteParam
+import com.example.businesscard.data.remote.param.ImageParam
+import com.example.businesscard.data.remote.response.ImageResponse
 import com.example.businesscard.data.remote.response.SuccessResponse
 import com.example.businesscard.repository.mapper.InformationMapper
+import com.google.gson.*
 import io.reactivex.Observable
+import java.lang.reflect.Type
 
 class InformationRepository(
     apiService: ApiService, val userDao: UserDao,
+    val informationDao: InformationDao,
     val informationMapper: InformationMapper
 ) : BaseRepository(apiService) {
 
@@ -25,7 +32,11 @@ class InformationRepository(
             return@flatMap requestApiList<BaseParam, Information>(
                 ApiAddress.GET_ALL_INFORMATION,
                 param,
-                null
+                {
+                    informationDao.insertInformations(it.map {
+                        informationMapper.dataToObject(it)
+                    })
+                }
             )
         }
     }
@@ -54,9 +65,30 @@ class InformationRepository(
 
         return getUserId.flatMap {
             information.userID = it
+            information.image_base64 = null
+
+            val gson = GsonBuilder().registerTypeHierarchyAdapter(
+                ByteArray::class.java,
+                ByteArrayToBase64TypeAdapter()
+            ).create()
 
             return@flatMap requestApi<Information, SuccessResponse>(
-                ApiAddress.UPDATE_INFORMATION, information
+                ApiAddress.UPDATE_INFORMATION, information, gson
+            )
+        }
+    }
+
+    fun getImage(image: String): Observable<ImageResponse> {
+        var getUserId = Observable.create<Int> {
+            val userID = userDao.getUsers().first().id
+            it.onNext(userID)
+        }
+
+        return getUserId.flatMap {
+            var imageParam = ImageParam(image)
+
+            return@flatMap requestApi<ImageParam, ImageResponse>(
+                ApiAddress.GET_IMAGE, imageParam
             )
         }
     }
@@ -84,16 +116,43 @@ class InformationRepository(
         fun getInstance(
             apiService: ApiService,
             userDao: UserDao,
+            informationDao: InformationDao,
             informationMapper: InformationMapper
         ) =
             INSTANCE ?: synchronized(UserRepository::class.java) {
-                INSTANCE ?: InformationRepository(apiService, userDao, informationMapper)
+                INSTANCE ?: InformationRepository(
+                    apiService,
+                    userDao,
+                    informationDao,
+                    informationMapper
+                )
                     .also { INSTANCE = it }
             }
 
         @JvmStatic
         fun destroyInstance() {
             INSTANCE = null
+        }
+    }
+
+    // Using Android's base64 libraries. This can be replaced with any base64 library.
+    private class ByteArrayToBase64TypeAdapter : JsonSerializer<ByteArray>,
+        JsonDeserializer<ByteArray> {
+        @Throws(JsonParseException::class)
+        override fun deserialize(
+            json: JsonElement,
+            typeOfT: Type,
+            context: JsonDeserializationContext
+        ): ByteArray {
+            return Base64.decode(json.asString, Base64.NO_WRAP)
+        }
+
+        override fun serialize(
+            src: ByteArray,
+            typeOfSrc: Type,
+            context: JsonSerializationContext
+        ): JsonElement {
+            return JsonPrimitive(Base64.encodeToString(src, Base64.NO_WRAP))
         }
     }
 }

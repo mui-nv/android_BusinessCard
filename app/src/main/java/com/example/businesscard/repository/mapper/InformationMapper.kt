@@ -34,7 +34,8 @@ class InformationMapper {
             data.address2,
             data.latitude,
             data.longitude,
-            data.image
+            data.image,
+            null
         )
     }
 }
