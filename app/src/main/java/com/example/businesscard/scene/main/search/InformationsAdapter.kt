@@ -25,7 +25,7 @@ import com.example.businesscard.databinding.InformationItemBinding
 
 class InformationsAdapter(
     private var informations: List<Information>,
-    private val tasksViewModel: SearchViewModel
+    private val viewModel: SearchViewModel
 ) : BaseAdapter() {
 
     fun replaceData(informations: List<Information>) {
@@ -51,8 +51,21 @@ class InformationsAdapter(
             DataBindingUtil.getBinding(view) ?: throw IllegalStateException()
         }
 
+        val informationClickListener = object : SearchItemActionsListener {
+            override fun onDeleteInformation(information: Information) {
+                viewModel.deleteInformation(information)
+            }
+
+            override fun onTaskClicked(information: Information) {
+                viewModel.selectedInformation(information)
+            }
+
+        }
+
         with(binding) {
             information = informations[position]
+            listener = informationClickListener
+            executePendingBindings()
         }
 
         return binding.root

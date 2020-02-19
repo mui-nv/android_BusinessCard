@@ -6,12 +6,17 @@
         <variable
             name="information"
             type="com.example.businesscard.data.remote.data.Information" />
+
+        <variable
+            name="listener"
+            type="com.example.businesscard.scene.main.search.SearchItemActionsListener" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
+        android:onClick="@{() -> listener.onTaskClicked(information)}"
         android:orientation="horizontal"
         android:paddingHorizontal="10dp"
         android:paddingVertical="16dp">
@@ -21,8 +26,9 @@
             android:layout_height="64dp" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
@@ -49,5 +55,12 @@
                 android:text="@{information.address1}"
                 android:textColor="@android:color/holo_green_dark" />
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:onClick="@{() -> listener.onDeleteInformation(information)}"
+            android:src="@android:drawable/ic_menu_delete"
+            android:tint="@android:color/holo_red_dark" />
     </LinearLayout>
 </layout>

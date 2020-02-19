@@ -1,6 +1,5 @@
 package com.example.businesscard.repository
 
-import android.util.Log
 import com.example.businesscard.data.remote.ApiService
 import com.example.businesscard.data.remote.param.RequestParam
 import com.example.businesscard.data.remote.response.ParamResponse
@@ -69,7 +68,7 @@ open class BaseRepository(val apiService: ApiService) {
 
                 val groupListType = object : TypeToken<ArrayList<K>>() {}.type
                 val model = gson.fromJson<List<K>>(decodeString, groupListType)
-                Log.i("TAG1", K::class.java.typeName)
+                var name = K::class.java.typeName
                 return@flatMap Observable.create<List<K>> {
                     it.onNext(model)
                 }
