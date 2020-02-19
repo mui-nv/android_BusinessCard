@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.businesscard.R
 import com.example.businesscard.data.remote.data.Information
 import com.example.businesscard.scene.main.create.CreateViewModel
+import com.example.businesscard.scene.main.edit.EditFragment
 import com.example.businesscard.scene.main.edit.EditViewModel
 import com.example.businesscard.scene.main.search.SearchViewModel
 import com.example.businesscard.scene.main.ui.main.SectionsPagerAdapter
@@ -25,9 +26,9 @@ class MainActivity : AppCompatActivity() {
 
     fun openEditTab(infomation: Information) {
         view_pager.setCurrentItem(2, true)
-        val fragment = view_pager.adapter?.getItemPosition(2)
         var tag = "android:switcher:" + R.id.view_pager + ":" + 2
         val fragment1 = supportFragmentManager.findFragmentByTag(tag)
+        (fragment1 as EditFragment).setInformation(infomation)
     }
 
     //    inline fun <reified T> obtainViewModel(): T = obtainViewModel(T::class.java)

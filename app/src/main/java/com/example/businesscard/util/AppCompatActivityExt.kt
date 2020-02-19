@@ -1,6 +1,5 @@
 package com.example.businesscard.util
 
-import android.content.Context
 import android.location.Address
 import android.location.Geocoder
 import androidx.appcompat.app.AlertDialog
@@ -11,7 +10,6 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.create_fragment.*
 
 
 fun <T : ViewModel> AppCompatActivity.obtainViewModel(viewModelClass: Class<T>) =
@@ -56,6 +54,7 @@ fun AppCompatActivity.setMapLocation(googleMap: GoogleMap?, location: LatLng) {
     }
 
     googleMap.apply {
+        clear()
         addMarker(MarkerOptions().position(location).title("Address!"))
         animateCamera(CameraUpdateFactory.newLatLngZoom(location, 13.0f))
     }

@@ -11,7 +11,7 @@ class InformationMapper {
             data.name1,
             data.name2,
             data.company,
-            data.deparment,
+            data.department,
             data.postal,
             data.address1,
             data.address2,

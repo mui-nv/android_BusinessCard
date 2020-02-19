@@ -16,10 +16,10 @@ open class BaseRepository(val apiService: ApiService) {
         noinline onNextHandle: ((K) -> Unit)?
     ): Observable<K> {
         val paramJson = dataToString(param)
+
         val encodeJson = AESCipher.encryption(AESCipher.key, AESCipher.iv, paramJson)
         val requestParam = RequestParam()
-        requestParam.param = encodeJson.toString()
-
+        requestParam.param = encodeJson.toString().replace("\n", "")
 
         val apiResponse: Observable<ParamResponse>
         when (apiAddress) {

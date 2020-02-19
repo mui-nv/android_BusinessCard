@@ -13,12 +13,12 @@ open class User(
 
 open class Information(
     @SerializedName("id") var id: Int,
-    @SerializedName("userID") var userID: Int?,
-    @SerializedName("name1") var name1: String?,
-    @SerializedName("name2") var name2: String?,
+    @SerializedName("userID") var userID: Int,
+    @SerializedName("name1") var name1: String,
+    @SerializedName("name2") var name2: String,
     @SerializedName("company") var company: String?,
     @SerializedName("postal") var postal: String?,
-    @SerializedName("deparment") var deparment: String?,
+    @SerializedName("department") var department: String?,
     @SerializedName("address1") var address1: String?,
     @SerializedName("address2") var address2: String?,
     @SerializedName("latitude") var latitude: Double?,
