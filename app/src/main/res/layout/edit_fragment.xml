@@ -7,7 +7,7 @@
 
         <variable
             name="viewmodel"
-            type="com.example.businesscard.scene.main.edit.EditViewModel" />
+            type="com.muinv.businesscard.scene.main.edit.EditViewModel" />
     </data>
 
     <ScrollView

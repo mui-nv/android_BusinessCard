@@ -7,7 +7,7 @@
 
         <variable
             name="viewmodel"
-            type="com.example.businesscard.scene.main.search.SearchViewModel" />
+            type="com.muinv.businesscard.scene.main.search.SearchViewModel" />
     </data>
 
     <FrameLayout

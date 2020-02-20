@@ -6,11 +6,11 @@
 
         <variable
             name="information"
-            type="com.example.businesscard.data.remote.data.Information" />
+            type="com.muinv.businesscard.data.remote.data.Information" />
 
         <variable
             name="listener"
-            type="com.example.businesscard.scene.main.search.SearchItemActionsListener" />
+            type="com.muinv.businesscard.scene.main.search.SearchItemActionsListener" />
     </data>
 
     <LinearLayout
